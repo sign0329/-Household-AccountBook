@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,14 +28,21 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false, length = 100)
-    private String password;
+//    @Column(nullable = false, length = 50)
+//    private String password;
 
     @Column(nullable = false, length = 50)
     private String name;
 
     private LocalDateTime create_at;
     private LocalDateTime update_at;
+
+    @Builder
+    public User(String email, String name){
+        this.email = email;
+        this.name = name;
+        this.create_at = LocalDateTime.now();
+    }
 
 
 

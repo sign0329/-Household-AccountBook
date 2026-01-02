@@ -1,2 +1,8 @@
-package com.ll.householdaccountbook.domain.user;public interface UserRepository {
+package com.ll.householdaccountbook.domain.user;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
 }

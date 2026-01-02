@@ -1,2 +1,6 @@
-package com.ll.householdaccountbook.domain;public enum TransactionType {
+package com.ll.householdaccountbook.domain;
+
+public enum TransactionType {
+    INCOME,
+    EXPENSE
 }
