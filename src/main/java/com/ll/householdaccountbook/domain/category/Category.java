@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,7 @@ public class Category {
 
     private LocalDateTime createAt;
 
+    @Builder
     public Category(User user, String name, TransactionType type){
         this.user = user;
         this.name = name;
