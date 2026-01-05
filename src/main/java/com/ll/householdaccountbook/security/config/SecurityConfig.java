@@ -1,50 +1,78 @@
-import jakarta.servlet.ServletException;
+package com.ll.householdaccountbook.global.security;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
 
 @Configuration
-@EnableWebSecurity          //deprecated로 경고 뜹니다.
-public class SecurityCofing extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+public class SecurityConfig {
 
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.
-                formLogin()
-                .loginPage("/loginPage")                 //사용자 정의 로그인 페이지
-                .defaultSuccessUrl("/")                  //로그인 성공 후 이동 페이지
-                .failureUrl("/login")                    //로그인 실패 후 이동 페이지
-                .usernameParameter("userId")             //아이디 파라미터명 설정
-                .passwordParameter("passwd")             //패스워드 파라미터명 설정
-                .loginProcessingUrl("/login_proc")       //로그인 form action url
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override                            //로그인 성공 후 핸들러
-                    public void onAuthenticationSuccess(HttpServletRequest request,
-                                                        HttpServletResponse response,
-                                                        Authentication authentication)
-                            throws IOException, ServletException {
-                        System.out.println("authentication == " + authentication.getName());
-                        response.sendRedirect("/");
-                    }
-                })
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override                           //로그인 실패 후 핸들러
-                    public void onAuthenticationFailure(HttpServletRequest request,
-                                                        HttpServletResponse response,
-                                                        AuthenticationException exception)
-                            throws IOException, ServletException {
-                        System.out.println("exception == " + exception);
-                        response.sendRedirect("/login");
-                    }
-                });
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/",
+                                "/loginPage",
+                                "/login",
+                                "/login_proc"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+
+                //  폼 로그인 설정
+                .formLogin(form -> form
+                        .loginPage("/loginPage")          // 커스텀 로그인 페이지
+                        .loginProcessingUrl("/login_proc")// 로그인 처리 URL
+                        .usernameParameter("userId")      // 아이디 파라미터
+                        .passwordParameter("passwd")      // 비밀번호 파라미터
+
+                        // 로그인 성공 시
+                        .successHandler(this::onLoginSuccess)
+
+                        // 로그인 실패 시
+                        .failureHandler(this::onLoginFailure)
+                )
+
+                // 로그아웃 (기본 설정)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/loginPage")
+                )
+
+                // CSRF (필요 시 조정)
+                .csrf(csrf -> csrf.disable());
+
+        return http.build();
+    }
+
+    // ===== 로그인 성공 핸들러 =====
+    private void onLoginSuccess(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication
+    ) throws IOException {
+
+        System.out.println("로그인 성공 사용자: " + authentication.getName());
+        response.sendRedirect("/");
+    }
+
+    // ===== 로그인 실패 핸들러 =====
+    private void onLoginFailure(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException exception
+    ) throws IOException {
+
+        System.out.println("로그인 실패 사유: " + exception.getMessage());
+        response.sendRedirect("/login");
     }
 }

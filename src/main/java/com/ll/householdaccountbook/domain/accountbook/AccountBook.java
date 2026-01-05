@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 @Entity
@@ -25,12 +26,26 @@ public class AccountBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
+    private String categoryName;
 
+    private int amount;
 
+    private String type;
+
+    private String memo;
+
+    private LocalDateTime transactionDate;
+
+    protected  AccountBook(Long userId, String categoryName, int amount, String type, String memo, LocalDateTime transactionDate){
+
+        this.userId = userId;
+        this.categoryName = categoryName;
+        this.amount = amount;
+        this.type = type;
+        this.memo = memo;
+        this.transactionDate = LocalDateTime.now();
+    }
 
 }

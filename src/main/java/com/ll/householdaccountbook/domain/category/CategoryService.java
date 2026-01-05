@@ -28,6 +28,8 @@ public class CategoryService {
                 .type(request.type())
                 .build();
 
+
+
         categoryRepository.save(category);
     }
 
