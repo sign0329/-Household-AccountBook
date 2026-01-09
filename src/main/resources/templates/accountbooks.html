@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>가계부 내역</title>
+
+</head>
+<body>
+
+<h2>가계부 내역</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>날짜</th>
+        <th>카테고리</th>
+        <th>금액</th>
+        <th>구분</th>
+        <th>메모</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:if="${#lists.isEmpty(accountBooks)}">
+        <td colspan="5">등록된 가계부 내역이 없습니다.</td>
+    </tr>
+
+    <tr th:each="item : ${accountBooks}">
+        <td th:text="${item.transactionDate()}"></td>
+        <td th:text="${item.categoryName()}"></td>
+        <td th:text="${item.amount()}"></td>
+        <td th:text="${item.type()}"></td>
+        <td th:text="${item.memo()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<a th:href="@{/}">메인으로</a>
+
+</body>
+</html>

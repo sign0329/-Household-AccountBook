@@ -27,9 +27,6 @@ public class CategoryService {
                 .name(request.name())
                 .type(request.type())
                 .build();
-
-
-
         categoryRepository.save(category);
     }
 

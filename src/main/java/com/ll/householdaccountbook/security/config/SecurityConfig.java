@@ -1,4 +1,4 @@
-package com.ll.householdaccountbook.global.security;
+package com.ll.householdaccountbook.security.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,33 +23,37 @@ public class SecurityConfig {
                                 "/",
                                 "/loginPage",
                                 "/login",
-                                "/login_proc"
+                                "/login_proc",
+                                "/account-books"
                         ).permitAll()
                         .anyRequest().authenticated()
-                )
+                );
 
                 //  폼 로그인 설정
-                .formLogin(form -> form
-                        .loginPage("/loginPage")          // 커스텀 로그인 페이지
-                        .loginProcessingUrl("/login_proc")// 로그인 처리 URL
-                        .usernameParameter("userId")      // 아이디 파라미터
-                        .passwordParameter("passwd")      // 비밀번호 파라미터
-
-                        // 로그인 성공 시
-                        .successHandler(this::onLoginSuccess)
-
-                        // 로그인 실패 시
-                        .failureHandler(this::onLoginFailure)
-                )
-
-                // 로그아웃 (기본 설정)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/loginPage")
-                )
-
-                // CSRF (필요 시 조정)
-                .csrf(csrf -> csrf.disable());
+//                .formLogin(form -> form
+//                        .loginPage("/loginPage")          // 커스텀 로그인 페이지
+//                        .permitAll()
+//
+//                        //나중에 로그인 작업시 설정바꿔줄것
+//                        .loginProcessingUrl("/login_proc")// 로그인 처리 URL
+//                        .usernameParameter("userId")      // 아이디 파라미터
+//                        .passwordParameter("passwd")      // 비밀번호 파라미터
+//
+//                         //로그인 성공 시
+//                        .successHandler(this::onLoginSuccess)
+//
+//                         //로그인 실패 시
+//                        .failureHandler(this::onLoginFailure)
+//                )
+//
+//                // 로그아웃 (기본 설정)
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/loginPage")
+//                )
+//
+//                // CSRF (필요 시 조정)
+//                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
