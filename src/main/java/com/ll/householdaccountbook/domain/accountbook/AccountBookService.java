@@ -20,7 +20,7 @@ public class AccountBookService {
                                 a.getTransactionDate(),
                                 a.getCategoryName(),
                                 a.getAmount(),
-                                a.getType(),
+                                a.getTransactionType(),
                                 a.getMemo()
                         ))
                         .toList();
@@ -35,6 +35,10 @@ public class AccountBookService {
                         request.memo(),
                         request.transactionDate()
                 );
+            }
+
+            public void create(Long userId, AccountBookRequest request){
+
             }
 
 }
