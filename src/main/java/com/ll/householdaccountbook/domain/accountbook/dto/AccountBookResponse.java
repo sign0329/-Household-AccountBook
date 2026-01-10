@@ -9,7 +9,7 @@ public record AccountBookResponse(
         LocalDate transactionDate,
         String categoryName,
         int amount,
-        TransactionType type,
+        TransactionType transactionType,
         String memo
 ) {
 

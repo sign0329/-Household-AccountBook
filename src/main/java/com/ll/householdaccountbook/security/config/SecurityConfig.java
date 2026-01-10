@@ -24,7 +24,9 @@ public class SecurityConfig {
                                 "/loginPage",
                                 "/login",
                                 "/login_proc",
-                                "/account-books"
+                                "/account-books",
+                                "/h2-console",
+                                "/categories"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

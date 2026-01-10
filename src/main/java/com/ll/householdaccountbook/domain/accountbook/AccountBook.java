@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 
@@ -39,14 +40,39 @@ public class AccountBook {
 
 
 
-    public AccountBook(Long userId, String categoryName, int amount, String transactionType, String memo, LocalDate transactionDate){
-
+    public AccountBook(Long userId, String categoryName, int amount, TransactionType transactionType, String memo, LocalDate transactionDate){
         this.userId = userId;
         this.categoryName = categoryName;
         this.amount = amount;
-        this.transactionType = getTransactionType();
+        this.transactionType = transactionType;
         this.memo = memo;
         this.transactionDate = transactionDate;
     }
 
+    private AccountBook(Long userId, int amount, TransactionType transactionType, String memo, LocalDate transactionDate) {
+        this.userId = userId;
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.memo = memo;
+        this.transactionDate = transactionDate;
+    }
+
+    public static AccountBook create(Long userId, int amount, TransactionType transactionType, String memo, LocalDate transactionDate) {
+
+        validate(amount, transactionType, transactionDate);
+
+        return new AccountBook(userId, amount, transactionType, memo, transactionDate);
+    }
+
+    private static void validate(int amount, TransactionType transactionType, LocalDate transactionDate) {
+        if(amount < 0) {
+            throw new IllegalArgumentException("금액이 0보다 커야합니다");
+        }
+        if (transactionType == null) {
+            throw new IllegalArgumentException("거래 타입은 필수입니다");
+        }
+        if(transactionDate == null){
+            throw new IllegalArgumentException("거래 날짜는 필수입니다");
+        }
+    }
 }

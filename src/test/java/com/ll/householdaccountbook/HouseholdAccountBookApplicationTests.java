@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SpringBootTest
 class HouseholdAccountBookApplicationTests {
@@ -38,7 +39,24 @@ class HouseholdAccountBookApplicationTests {
         assertThat(accountBook.getMemo()).isEqualTo("점심 식사");
         assertThat(accountBook.getTransactionDate()).isEqualTo(transactionDate);
     }
+    @Test
+    @DisplayName("정상적인 값으로 가계부 생성확인")
+    void createAccountBook_success(){
+        //given
+        Long userId = 1L;
+        int amount = 10000;
+
+        //when
+        AccountBook accountBook = AccountBook.create(
+                userId,
+                amount,
+                TransactionType.EXPENSE,
+                "점심",
+                LocalDate.now()
+        );
+        assertThat(accountBook.getUserId()).isEqualTo(userId);
+        assertThat(accountBook.getAmount()).isEqualTo(amount);
+        assertThat(accountBook.getTransactionType()).isEqualTo(TransactionType.EXPENSE);
     }
-
-
 }
+

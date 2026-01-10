@@ -31,7 +31,7 @@ public class AccountBookService {
                         userId,
                         request.categoryName(),
                         request.amount(),
-                        request.type(),
+                        request.transactionType(),
                         request.memo(),
                         request.transactionDate()
                 );
