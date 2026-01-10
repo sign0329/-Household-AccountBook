@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>가계가계부</title>
+</head>
+<body>
+<header>
+    <h1>가계부 서비스</h1>
+    <div>
+        <span sec:authorize="isAuthenticated()"> 로그인 상태</span>
+    </div>
+    <div>
+        <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}"> 로그인</a>
+        </span>
+    </div>
+</header>
+
+<hr>
+
+<main>
+    <section>
+        <h2>서비스 소개</h2>
+        <p>
+            개인의 수입, 지출 관리를 위한 간단한 가계부 웹 서비스입니다
+        </p>
+    </section>
+
+    <section>
+        <h2>주요 기능</h2>
+        <ul>
+            <li><a th:href="@{/account-books}">가계부 내역 조회</a></li>
+            <li><a th:href="@{/catecories}">카테고리 관련</a></li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>
